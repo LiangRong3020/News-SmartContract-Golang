@@ -1,0 +1,56 @@
+1. 
+	docker exec -it chaincode /bin/bash
+2.
+	cd lbh_tuna_demo/
+3.
+	go build
+4.
+	CORE_PEER_ADDRESS=peer:7052 CORE_CHAINCODE_ID_NAME=lbh_tuna_demo:0 ./lbh_tuna_demo
+	
+=================================================new session==========================================================
+
+1.
+	docker exec -it cli /bin/bash
+2.
+	peer chaincode install -p chaincodedev/chaincode/lbh_tuna_demo -n lbh_tuna_demo -v 0
+3.
+	peer chaincode instantiate -n lbh_tuna_demo -v 0  -c '{"Args":[]}' -C myc
+
+4.	存入新聞資訊
+	peer chaincode invoke -n lbh_tuna_demo -v 0 -c '{"Args":["recordNews", "01", "title01", "20181230", "a,b,c", "http://1", "op", "apple"]}' -C myc
+	
+5. 	取出新聞資訊
+	peer chaincode invoke -n lbh_tuna_demo -v 0 -c '{"Args":["getNews", "apple", "01"]}' -C myc
+
+6.	取得新聞歷史資訊
+	peer chaincode invoke -n lbh_tuna_demo -v 0 -c '{"Args":["getNewsHistory", "apple", "01"]}' -C myc
+
+7.	取得特定新聞台所有新聞資訊
+	peer chaincode invoke -n lbh_tuna_demo -v 0 -c '{"Args":["getOriginNewsHistory", "apple"]}' -C myc
+
+8.	新增修改評論
+	peer chaincode invoke -n lbh_tuna_demo -v 0 -c '{"Args":["recordComments", "01", "87comment", "20181230", "Rong", "apple,01", "01"]}' -C myc
+	
+9.	取得評論資訊
+	peer chaincode invoke -n lbh_tuna_demo -v 0 -c '{"Args":["getComment","apple,01", "01", "01"]}' -C myc
+	
+10.	取得特定新聞評論
+	peer chaincode invoke -n lbh_tuna_demo -v 0 -c '{"Args":["getNewsComments","01"]}' -C myc
+
+11.	取得特定使用者評論(X)
+	peer chaincode invoke -n lbh_tuna_demo -v 0 -c '{"Args":["getUserComments", "01"]}' -C myc
+	
+12.	取得評論歷史資訊
+	peer chaincode invoke -n lbh_tuna_demo -v 0 -c '{"Args":["getNewsCommentHistory","apple,01", "01", "01"]}' -C myc
+
+13.	存入使用者
+	peer chaincode invoke -n lbh_tuna_demo -v 0 -c '{"Args":["recordUsers", "01", "Rong", "http:/123", "87gg"]}' -C myc 
+
+14.	取出特定使用者資訊
+	 peer chaincode invoke -n lbh_tuna_demo -v 0 -c '{"Args":["getUser", "01"]}' -C myc
+	
+15.   取得所有使用者資訊
+	peer chaincode invoke -n lbh_tuna_demo -v 0 -c '{"Args":["getAllUsers"]}' -C myc
+	
+16.	取得使用者資料歷史修改資訊
+	peer chaincode invoke -n lbh_tuna_demo -v 0 -c '{"Args":["getUserHistory", "01"]}' -C myc
